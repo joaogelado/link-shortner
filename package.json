@@ -1,0 +1,23 @@
+{
+    "name": "link-shortner",
+    "version": "1.0.0",
+    "description": "Shorten links to authorized accounts",
+    "main": "index.js",
+    "repository": "git@github.com:joaogelado/link-shortner.git",
+    "author": "joaogelado",
+    "license": "GPL-3.0",
+    "private": false,
+    "scripts": {
+        "dev": "next dev"
+    },
+    "dependencies": {
+        "next": "^12.2.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.4",
+        "@types/react": "^18.0.15",
+        "typescript": "^4.7.4"
+    }
+}
