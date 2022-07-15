@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
         return {
             redirect: {
-                destination: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                destination: res.data.redirectTo,
                 permanent: true,
             },
         };
