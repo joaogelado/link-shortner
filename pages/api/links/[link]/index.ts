@@ -7,22 +7,31 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
     .handler({});
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === "GET") {
-        const linkRepository = new PrismaLinkRepository();
+    const linkRepository = new PrismaLinkRepository();
 
-        const link = await linkRepository.read({
+    const link = await linkRepository.read({
+        where: {
+            name: req.query.link as string,
+        },
+    });
+
+    if (!link) {
+        return res.status(404).json({
+            message: "Link not found",
+            statusCode: 404,
+        });
+    }
+
+    if (!req.query.noClick) {
+        linkRepository.update({
             where: {
-                name: req.query.link as string,
+                id: link.id,
+            },
+            data: {
+                clicks: link.clicks + 1,
             },
         });
-
-        if (!link) {
-            return res.status(404).json({
-                message: "Link not found",
-                statusCode: 404,
-            });
-        }
-
-        return res.json(link);
     }
+
+    return res.json(link);
 }

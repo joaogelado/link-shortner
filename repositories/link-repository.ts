@@ -1,6 +1,7 @@
 export interface Link {
     id: string;
     name: string;
+    redirectTo: string;
     clicks: number;
     createdAt: Date;
 }
@@ -8,6 +9,7 @@ export interface Link {
 export interface LinkSelect {
     id: boolean;
     name: boolean;
+    redirectTo: boolean;
     clicks: boolean;
     createdAt: boolean;
 }
@@ -15,6 +17,7 @@ export interface LinkSelect {
 export interface LinkOrderBy {
     id: "asc" | "desc";
     name: "asc" | "desc";
+    redirectTo: "asc" | "desc";
     clicks: "asc" | "desc";
     createdAt: "asc" | "desc";
 }
@@ -24,6 +27,7 @@ export interface ReadAllLinkData {
         id?: string;
         name?: string;
         clicks?: number;
+        redirectTo?: string;
     };
     select?: LinkSelect;
     orderBy?: LinkOrderBy;
@@ -39,6 +43,7 @@ export interface ReadLinkData {
 
 export interface CreateLinkData {
     name: string;
+    redirectTo: string;
 }
 
 export interface UpdateLinkData {
@@ -49,6 +54,7 @@ export interface UpdateLinkData {
     data: {
         name?: string;
         clicks?: number;
+        redirectTo?: string;
     };
 }
 
