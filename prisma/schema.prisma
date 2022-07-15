@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Link {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  clicks    Int      @default(0)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  name       String   @unique
+  redirectTo String   @map("redirect_to")
+  clicks     Int      @default(0)
+  createdAt  DateTime @default(now())
 
   @@map("links")
 }
