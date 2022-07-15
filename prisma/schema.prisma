@@ -27,7 +27,7 @@ model User {
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Session   Session[]
+  session   Session[]
 
   @@map("users")
 }
