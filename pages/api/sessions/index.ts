@@ -47,7 +47,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
 async function postHandler(req: NextApiRequest, res: NextApiResponse) {
     const { email, password } = req.body;
 
-    if (process.env.PERMITTED_EMAIL && process.env.PERMITTED_EMAIL !== email) {
+    if (process.env.PERMITTED_EMAIL !== email) {
         return res.status(403).json({});
     }
 

@@ -16,15 +16,23 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse) {
-    if (!req.body.name) {
+    const { name, redirectTo }: { name: string; redirectTo: string } = req.body;
+
+    if (!name) {
         return res.status(400).json({
             error: "Name is required",
         });
     }
 
-    if (!req.body.redirectTo) {
+    if (!redirectTo) {
         return res.status(400).json({
             error: "Redirect URL is required",
+        });
+    }
+
+    if (name.startsWith("app")) {
+        return res.status(400).json({
+            error: "Name cannot start with 'app'",
         });
     }
 
