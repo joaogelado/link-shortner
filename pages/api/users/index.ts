@@ -29,7 +29,8 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!name || !email || !password) {
         return res.status(400).json({
-            error: "name, email, and password are required",
+            message: "name, email, and password are required",
+            statusCode: 400,
         });
     }
 

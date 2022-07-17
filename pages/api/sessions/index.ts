@@ -45,7 +45,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse) {
-    const { email, password } = req.body;
+    const { email, password, stayLoggedIn } = req.body;
 
     if (process.env.PERMITTED_EMAIL !== email) {
         return res.status(403).json({});
@@ -53,7 +53,8 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!email || !password) {
         return res.status(400).json({
-            error: "email and password are required",
+            message: "email and password are required",
+            statusCode: 400,
         });
     }
 
@@ -68,7 +69,8 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!dbRes) {
         return res.status(404).json({
-            error: "user not found",
+            message: "user not found",
+            statusCode: 404,
         });
     }
 
@@ -76,13 +78,12 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!isValid) {
         return res.status(401).json({
-            error: "invalid password",
+            message: "invalid password",
+            statusCode: 401,
         });
     }
 
     const session = randomBytes(64).toString("hex");
-
-    console.log(session);
 
     await sessionRepository.create({
         data: {
@@ -95,13 +96,23 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
         },
     });
 
-    const cookie = serialize("session", session, {
-        maxAge: 60 * 60,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-    });
+    if (stayLoggedIn) {
+        const cookie = serialize("session", session, {
+            maxAge: 60 * 60,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            path: "/",
+        });
 
-    res.setHeader("Set-Cookie", cookie);
+        res.setHeader("Set-Cookie", cookie);
+    } else {
+        const cookie = serialize("session", session, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        });
+
+        res.setHeader("Set-Cookie", cookie);
+    }
 
     res.status(201).json({
         success: true,

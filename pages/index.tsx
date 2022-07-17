@@ -1,7 +1,13 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 export default function HomePage() {
-    return (
-        <>
-            <h1>Home</h1>
-        </>
-    );
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push("/app");
+    });
+
+    return <></>;
 }

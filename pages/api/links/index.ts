@@ -20,19 +20,29 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!name) {
         return res.status(400).json({
-            error: "Name is required",
+            message: "Name is required",
+            statusCode: 400,
         });
     }
 
     if (!redirectTo) {
         return res.status(400).json({
-            error: "Redirect URL is required",
+            message: "Redirect URL is required",
+            statusCode: 400,
         });
     }
 
     if (name.startsWith("app")) {
         return res.status(400).json({
-            error: "Name cannot start with 'app'",
+            message: "Name cannot start with 'app'",
+            statusCode: 400,
+        });
+    }
+
+    if (name.includes("/")) {
+        return res.status(400).json({
+            message: "Name cannot contain '/'",
+            statusCode: 400,
         });
     }
 

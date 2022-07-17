@@ -24,7 +24,7 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     if (!dbRes) {
         return res
             .status(404)
-            .json({ success: false, message: "User not found" });
+            .json({ message: "User not found", statusCode: 404 });
     }
 
     res.status(200).json(dbRes);
