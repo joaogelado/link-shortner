@@ -26,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         const res = await api.get(`/links/${link}`);
 
+        console.log(process.env.VERCEL_URL);
+
         log.debug("getServerSideProps fetch res", res);
         console.log("getServerSideProps fetch res", res);
 
