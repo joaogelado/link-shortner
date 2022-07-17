@@ -28,9 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
         console.log(process.env.VERCEL_URL);
 
-        log.debug("getServerSideProps fetch res", res);
-        console.log("getServerSideProps fetch res", res);
-
         return {
             redirect: {
                 destination: res.data.redirectTo,
@@ -38,9 +35,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     } catch (error) {
-        log.error("getServerSideProps fetch error", error);
-        console.error("getServerSideProps fetch error", error);
-
         if (error instanceof AxiosError) {
             return {
                 props: {
