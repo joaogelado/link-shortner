@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const res = await api.get(`/links/${link}`);
 
         log.debug("getServerSideProps fetch res", res);
+        console.log("getServerSideProps fetch res", res);
 
         return {
             redirect: {
@@ -34,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     } catch (error) {
         log.error("getServerSideProps fetch error", error);
+        console.error("getServerSideProps fetch error", error);
 
         if (error instanceof AxiosError) {
             return {
