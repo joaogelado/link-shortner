@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
+import { log } from "next-axiom";
 import { api } from "../utils/api";
 
 export default function Page({ error }: { error: AxiosError }) {
@@ -24,6 +24,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         const res = await api.get(`/links/${link}`);
 
+        log.debug("getServerSideProps fetch res", res);
+
         return {
             redirect: {
                 destination: res.data.redirectTo,
@@ -31,6 +33,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     } catch (error) {
+        log.error("getServerSideProps fetch error", error);
+
         if (error instanceof AxiosError) {
             return {
                 props: {
