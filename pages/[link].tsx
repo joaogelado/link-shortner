@@ -4,6 +4,8 @@ import { log } from "next-axiom";
 import { api } from "../utils/api";
 
 export default function Page({ error }: { error: AxiosError }) {
+    console.error(error);
+
     return (
         <div className="grid row-span-2 gap-10 content-center place-items-center h-screen">
             <h1 className="text-6xl font-extrabold text-red-700">
