@@ -12,21 +12,27 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (window.localStorage.getItem("isLoggedIn") !== "true") {
-            router.push("/app/login", "/app");
-            return;
-        }
-
-        (async () => {
-            try {
-                await api.get("/user");
-                setLoading(false);
-            } catch (err) {
-                if (err.response.status === 401) {
-                    router.push("/app/login", "/");
-                }
+        try {
+            if (window.localStorage.getItem("isLoggedIn") !== "true") {
+                router.push("/app/login", "/app");
+                return;
             }
-        })();
+
+            (async () => {
+                try {
+                    await api.get("/user");
+                    setLoading(false);
+                } catch (err) {
+                    if (err.response.status === 401) {
+                        router.push("/app/login", "/app");
+                    }
+                }
+            })();
+        } catch (err) {
+            console.error(err);
+
+            router.push("/app/login", "/app");
+        }
     }, [router]);
 
     return (
