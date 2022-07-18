@@ -23,7 +23,7 @@ export default function Login() {
 
         window.localStorage.setItem("isLoggedIn", "true");
 
-        async () => {
+        async function submitSession() {
             await api.post("/sessions", {
                 email,
                 password,
@@ -31,7 +31,9 @@ export default function Login() {
             });
 
             router.push("/app");
-        };
+        }
+
+        submitSession();
     };
 
     return (
