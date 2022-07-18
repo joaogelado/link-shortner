@@ -4,7 +4,6 @@ import {
     SessionCreateData,
     SessionDeleteData,
     SessionReadData,
-    SessionReadFirstData,
     SessionRepository,
     SessionUpdateData,
 } from "../session-repository";
@@ -58,19 +57,5 @@ export class PrismaSessionRepository implements SessionRepository {
         } else {
             return Promise.resolve(null);
         }
-    }
-
-    async readFirst({
-        where,
-        select,
-    }: SessionReadFirstData): Promise<Session | null> {
-        const user = await prisma.session.findFirst({
-            where,
-            select,
-        });
-
-        if (!user) return Promise.resolve(null);
-
-        return Promise.resolve(user);
     }
 }
