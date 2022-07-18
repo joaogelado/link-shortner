@@ -14,6 +14,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (window.localStorage.getItem("isLoggedIn") !== "true") {
             router.push("/app/login", "/app");
+            return;
         }
 
         (async () => {
