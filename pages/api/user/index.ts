@@ -1,19 +1,27 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { createRouter as nextConnect } from "next-connect";
+import { injectAnonymousOrUser } from "../../../custom/middleware/authentication";
 import { PrismaSessionRepository } from "../../../repositories/prisma/prisma-session-repository";
+import { NextApiRequestWithMetadata } from "../../../types";
 
-export default nextConnect().get(getHandler).handler();
+export default nextConnect()
+    .use(injectAnonymousOrUser)
+    .get(getHandler)
+    .handler();
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
-    const session = req.cookies.session;
-
-    if (!session) {
+async function getHandler(
+    req: NextApiRequestWithMetadata,
+    res: NextApiResponse
+) {
+    if (!req.metadata.user.id) {
         res.status(401).json({
             message: "You have to be logged in first",
             statusCode: 401,
         });
         return;
     }
+
+    const session = req.cookies.session;
 
     const sessionRepository = new PrismaSessionRepository();
 

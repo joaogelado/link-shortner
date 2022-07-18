@@ -20,9 +20,7 @@ export interface UserReadAllData {
 }
 
 export interface UserReadData {
-    where: UserCommonWhere & {
-        password?: string;
-    };
+    where: UserCommonWhere;
     select?: UserCommonSelect;
 }
 

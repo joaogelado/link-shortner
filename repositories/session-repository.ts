@@ -18,11 +18,6 @@ export interface SessionReadData {
     select?: SessionCommonSelect;
 }
 
-export interface SessionReadFirstData {
-    where: SessionCommonWhere;
-    select?: SessionCommonSelect;
-}
-
 export interface SessionCreateData {
     data: SessionCommonData;
 }
@@ -77,7 +72,6 @@ export interface SessionCommonData {
 
 export interface SessionRepository {
     read: (data: SessionReadData) => Promise<Session | null>;
-    readFirst: (data: SessionReadFirstData) => Promise<Session | null>;
     create: (data: SessionCreateData) => Promise<void>;
     update: (data: SessionUpdateData) => Promise<void>;
     delete: (data: SessionDeleteData) => Promise<void>;

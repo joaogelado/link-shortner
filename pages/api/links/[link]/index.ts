@@ -1,13 +1,27 @@
 import { createRouter as nextConnect } from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { PrismaLinkRepository } from "../../../../repositories/prisma/prisma-link-repository";
+import { NextApiRequestWithMetadata } from "../../../../types";
+import { injectAnonymousOrUser } from "../../../../custom/middleware/authentication";
 
-export default nextConnect<NextApiRequest, NextApiResponse>()
+export default nextConnect<NextApiRequestWithMetadata, NextApiResponse>()
+    .use(injectAnonymousOrUser)
     .get(getHandler)
     .delete(deleteHandler)
     .handler({});
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
+async function getHandler(
+    req: NextApiRequestWithMetadata,
+    res: NextApiResponse
+) {
+    if (!req.metadata.user.id) {
+        res.status(401).json({
+            message: "You have to be logged in first",
+            statusCode: 401,
+        });
+        return;
+    }
+
     const linkRepository = new PrismaLinkRepository();
 
     const link = await linkRepository.read({
@@ -37,7 +51,18 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     return res.json(link);
 }
 
-async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
+async function deleteHandler(
+    req: NextApiRequestWithMetadata,
+    res: NextApiResponse
+) {
+    if (!req.metadata.user.id) {
+        res.status(401).json({
+            message: "You have to be logged in first",
+            statusCode: 401,
+        });
+        return;
+    }
+
     const { link } = req.query;
 
     if (!link) {

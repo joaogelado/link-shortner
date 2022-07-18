@@ -2,10 +2,27 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createRouter as nextConnect } from "next-connect";
 import { PrismaUserRepository } from "../../../repositories/prisma/prisma-user-repository";
 import { hash } from "bcrypt";
+import { NextApiRequestWithMetadata } from "../../../types";
+import { injectAnonymousOrUser } from "../../../custom/middleware/authentication";
 
-export default nextConnect().post(postHandler).get(getHandler).handler();
+export default nextConnect()
+    .use(injectAnonymousOrUser)
+    .post(postHandler)
+    .get(getHandler)
+    .handler();
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse) {
+async function getHandler(
+    req: NextApiRequestWithMetadata,
+    res: NextApiResponse
+) {
+    if (!req.metadata.user.id) {
+        res.status(401).json({
+            message: "You have to be logged in first",
+            statusCode: 401,
+        });
+        return;
+    }
+
     const userRepository = new PrismaUserRepository();
 
     const user = await userRepository.readAll({
@@ -20,7 +37,10 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json(user);
 }
 
-async function postHandler(req: NextApiRequest, res: NextApiResponse) {
+async function postHandler(
+    req: NextApiRequestWithMetadata,
+    res: NextApiResponse
+) {
     const { name, email, password } = req.body;
 
     if (process.env.PERMITTED_EMAIL !== email) {
