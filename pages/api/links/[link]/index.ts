@@ -4,6 +4,7 @@ import { PrismaLinkRepository } from "../../../../repositories/prisma/prisma-lin
 
 export default nextConnect<NextApiRequest, NextApiResponse>()
     .get(getHandler)
+    .delete(deleteHandler)
     .handler({});
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse) {
@@ -34,4 +35,36 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     return res.json(link);
+}
+
+async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
+    const { link } = req.query;
+
+    if (!link) {
+        return res.status(400).json({
+            message: "Link is required",
+            statusCode: 400,
+        });
+    }
+
+    try {
+        const linkRepository = new PrismaLinkRepository();
+
+        await linkRepository.delete({
+            where: {
+                name: link as string,
+            },
+        });
+
+        return res.json({
+            success: true,
+        });
+    } catch (err) {
+        if (err.code == "P2025") {
+            return res.status(404).json({
+                message: "Link not found",
+                statusCode: 400,
+            });
+        }
+    }
 }
