@@ -37,17 +37,6 @@ async function getHandler(
         });
     }
 
-    if (!req.query.noClick) {
-        linkRepository.update({
-            where: {
-                id: link.id,
-            },
-            data: {
-                clicks: link.clicks + 1,
-            },
-        });
-    }
-
     return res.json(link);
 }
 

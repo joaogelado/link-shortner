@@ -4,7 +4,7 @@ import { compare } from "bcrypt";
 import { PrismaUserRepository } from "../../../repositories/prisma/prisma-user-repository";
 import { PrismaSessionRepository } from "../../../repositories/prisma/prisma-session-repository";
 import { randomBytes } from "crypto";
-import { serialize } from "cookie";
+import { setCookie } from "nookies";
 
 export default nextConnect().post(postHandler).get(getHandler).handler();
 
@@ -96,23 +96,19 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse) {
         },
     });
 
-    if (stayLoggedIn) {
-        const cookie = serialize("session", session, {
-            maxAge: 60 * 60,
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+    setCookie(
+        {
+            res,
+        },
+        "session",
+        session,
+        {
             path: "/",
-        });
-
-        res.setHeader("Set-Cookie", cookie);
-    } else {
-        const cookie = serialize("session", session, {
-            httpOnly: true,
+            maxAge: stayLoggedIn ? 60 * 60 * 24 * 7 : undefined,
             secure: process.env.NODE_ENV === "production",
-        });
-
-        res.setHeader("Set-Cookie", cookie);
-    }
+            httpOnly: true,
+        }
+    );
 
     res.status(201).json({
         success: true,

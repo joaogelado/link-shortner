@@ -21,16 +21,18 @@ export default function Login() {
             return;
         }
 
-        window.localStorage.setItem("isLoggedIn", "true");
-
         async function submitSession() {
-            await api.post("/sessions", {
-                email,
-                password,
-                stayLoggedIn,
-            });
+            await api
+                .post("/sessions", {
+                    email,
+                    password,
+                    stayLoggedIn,
+                })
+                .then(() => {
+                    window.localStorage.setItem("isLoggedIn", "true");
 
-            router.push("/app");
+                    router.push("/app");
+                });
         }
 
         submitSession();
