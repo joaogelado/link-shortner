@@ -4,7 +4,7 @@ import { log } from "next-axiom";
 import { api } from "../utils/api";
 
 export default function Page({ error }: { error: AxiosError }) {
-    console.error(error);
+    log.error("got server side props error", error);
 
     return (
         <div className="grid row-span-2 gap-10 content-center place-items-center h-screen">
@@ -23,10 +23,10 @@ export default function Page({ error }: { error: AxiosError }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const link = context.params.link;
 
+    log.debug(process.env.VERCEL_URL);
+
     try {
         const res = await api.get(`/links/${link}`);
-
-        log.debug(process.env.VERCEL_URL);
 
         return {
             redirect: {
