@@ -2,16 +2,29 @@ import useSWR from "swr";
 import Link from "next/link";
 import { api } from "../utils/api";
 import Loading from "./Loading";
+import { useRouter } from "next/router";
+import { lazy, Suspense } from "react";
+const CreateLink = lazy(() => import("./CreateLink"));
 
 const fetcher = (url) => api.get(url).then((res) => res.data);
 
 export default function LinkList() {
+    const router = useRouter();
+
     const { data, error } = useSWR("/links", fetcher, {
         refreshInterval: 500,
     });
 
+    if (error && error.response.status === 401) {
+        router.push("/app/login", "/app");
+    }
+
     return (
         <>
+            <Suspense>
+                <CreateLink />
+            </Suspense>
+
             <div className="divide-y divide-zinc-400 dark:divide-zinc-800">
                 {data ? (
                     data.map((link) => (
