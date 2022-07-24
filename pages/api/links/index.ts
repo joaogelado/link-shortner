@@ -3,6 +3,8 @@ import type { NextApiResponse } from "next";
 import { PrismaLinkRepository } from "../../../repositories/prisma/prisma-link-repository";
 import { injectAnonymousOrUser } from "../../../custom/middleware/authentication";
 import { NextApiRequestWithMetadata } from "../../../types";
+import slug from "slug";
+import { generateRandomB64 } from "../../../utils/randomb64";
 
 export default nextConnect<NextApiRequestWithMetadata, NextApiResponse>()
     .use(injectAnonymousOrUser)
@@ -42,11 +44,10 @@ async function postHandler(
 
     const { name, redirectTo }: { name: string; redirectTo: string } = req.body;
 
-    if (!name) {
-        return res.status(400).json({
-            message: "Name is required",
-            statusCode: 400,
-        });
+    let changingName = name || null;
+
+    if (!changingName) {
+        changingName = generateRandomB64(12);
     }
 
     if (!redirectTo) {
@@ -70,11 +71,13 @@ async function postHandler(
         });
     }
 
+    const sluggedName = slug(changingName, { lower: true });
+
     const linkRepository = new PrismaLinkRepository();
 
     await linkRepository.create({
-        name: req.body.name,
-        redirectTo: req.body.redirectTo,
+        name: sluggedName,
+        redirectTo,
     });
 
     return res.json({
