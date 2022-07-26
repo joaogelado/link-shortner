@@ -47,6 +47,10 @@ export default function LinkList() {
                             </span>
                             <span>Redirect URL: {link.redirectTo}</span>
                             <span>Clicks: {link.clicks}</span>
+                            <span>
+                                Is password locked?{" "}
+                                {link.isPasswordLocked ? "Yes" : "No"}
+                            </span>
                         </div>
                     ))
                 ) : (

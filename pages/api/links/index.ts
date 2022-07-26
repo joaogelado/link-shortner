@@ -5,6 +5,7 @@ import { injectAnonymousOrUser } from "../../../custom/middleware/authentication
 import { NextApiRequestWithMetadata } from "../../../types";
 import slug from "slug";
 import { generateRandomB64 } from "../../../utils/randomb64";
+import { hash } from "bcrypt";
 
 export default nextConnect<NextApiRequestWithMetadata, NextApiResponse>()
     .use(injectAnonymousOrUser)
@@ -25,9 +26,29 @@ async function getHandler(
 
     const linkRepository = new PrismaLinkRepository();
 
-    const links = await linkRepository.readAll({});
+    const links = await linkRepository.readAll({
+        select: {
+            clicks: true,
+            createdAt: true,
+            id: true,
+            name: true,
+            redirectTo: true,
+            password: true,
+        },
+    });
 
-    return res.json(links);
+    return res.json(
+        links.map((link) => {
+            return {
+                name: link.name,
+                redirectTo: link.redirectTo,
+                clicks: link.clicks,
+                createdAt: link.createdAt,
+                id: link.id,
+                isPasswordLocked: link.password ? true : false,
+            };
+        })
+    );
 }
 
 async function postHandler(
@@ -42,7 +63,11 @@ async function postHandler(
         return;
     }
 
-    const { name, redirectTo }: { name: string; redirectTo: string } = req.body;
+    const {
+        name,
+        redirectTo,
+        password,
+    }: { name: string; redirectTo: string; password?: string } = req.body;
 
     let changingName = name || null;
 
@@ -75,9 +100,16 @@ async function postHandler(
 
     const linkRepository = new PrismaLinkRepository();
 
+    const hashedPassword = await hash(
+        password,
+        process.env.NODE_ENV === "production" ? 13 : 1
+    );
+    console.log(hashedPassword);
+
     await linkRepository.create({
         name: sluggedName,
         redirectTo,
+        password: hashedPassword,
     });
 
     return res.json({

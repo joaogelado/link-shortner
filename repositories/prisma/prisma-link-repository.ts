@@ -33,11 +33,16 @@ export class PrismaLinkRepository implements LinkRepository {
         return res;
     }
 
-    async create({ name, redirectTo }: CreateLinkData): Promise<void> {
+    async create({
+        name,
+        redirectTo,
+        password,
+    }: CreateLinkData): Promise<void> {
         await prisma.link.create({
             data: {
                 name,
                 redirectTo,
+                password,
             },
         });
     }

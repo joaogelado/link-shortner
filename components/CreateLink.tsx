@@ -6,6 +6,7 @@ import { api } from "../utils/api";
 export default function CreateLink() {
     const [name, setName] = useState<string | null>("");
     const [redirectTo, setRedirectTo] = useState("");
+    const [password, setPassword] = useState("");
     const [isSelected, setIsSelected] = useState(false);
 
     function handleOpenCreateLink() {
@@ -18,6 +19,7 @@ export default function CreateLink() {
         await api.post("/links", {
             name,
             redirectTo,
+            password,
         });
 
         setIsSelected(false);
@@ -56,6 +58,15 @@ export default function CreateLink() {
                     value={redirectTo}
                     required
                     onChange={(e) => setRedirectTo(e.target.value)}
+                    className="dark:bg-zinc-700 bg-zinc-300 rounded-sm"
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="dark:bg-zinc-700 bg-zinc-300 rounded-sm"
                 />
                 <button
