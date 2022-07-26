@@ -37,9 +37,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 },
             });
         } else {
-            return {
-                notFound: true,
-            };
+            return process.env.RICK
+                ? {
+                      redirect: {
+                          destination:
+                              "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                          permanent: true,
+                      },
+                  }
+                : {
+                      notFound: true,
+                  };
         }
 
         return {
