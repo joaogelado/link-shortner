@@ -64,7 +64,6 @@ export default function CreateLink() {
                 <input
                     id="password"
                     type="password"
-                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="dark:bg-zinc-700 bg-zinc-300 rounded-sm"
