@@ -31,7 +31,13 @@ export default function Login() {
                 .then(() => {
                     window.localStorage.setItem("isLoggedIn", "true");
 
-                    router.push("/app");
+                    router.reload();
+                })
+                .catch((err) => {
+                    if (err.response.status === 401) {
+                        setDialogOpen(true);
+                        setErrorMessage("Invalid email or password");
+                    }
                 });
         }
 
