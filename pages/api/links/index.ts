@@ -100,11 +100,15 @@ async function postHandler(
 
     const linkRepository = new PrismaLinkRepository();
 
-    const hashedPassword = await hash(
-        password,
-        process.env.NODE_ENV === "production" ? 13 : 1
-    );
-    console.log(hashedPassword);
+    let hashedPassword;
+
+    if (password) {
+        hashedPassword = await hash(
+            password,
+            process.env.NODE_ENV === "production" ? 13 : 1
+        );
+        console.log(hashedPassword);
+    }
 
     await linkRepository.create({
         name: sluggedName,
