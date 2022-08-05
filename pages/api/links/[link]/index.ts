@@ -98,6 +98,7 @@ async function getHandler(
             clicks: true,
             createdAt: true,
             id: true,
+            ogTitle: true,
             name: true,
             redirectTo: true,
             password: true,
@@ -116,6 +117,7 @@ async function getHandler(
         createdAt: link.createdAt,
         id: link.id,
         name: link.name,
+        ogTitle: link.ogTitle,
         redirectTo: link.redirectTo,
         isPasswordLocked: link.password ? true : false,
     });
