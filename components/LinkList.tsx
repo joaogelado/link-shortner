@@ -51,6 +51,9 @@ export default function LinkList() {
                                 Is password locked?{" "}
                                 {link.isPasswordLocked ? "Yes" : "No"}
                             </span>
+                            {link.ogTitle && (
+                                <span>og:title: {link.ogTitle}</span>
+                            )}
                         </div>
                     ))
                 ) : (

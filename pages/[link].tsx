@@ -2,8 +2,9 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import { log } from "next-axiom";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PrismaLinkRepository } from "../repositories/prisma/prisma-link-repository";
 import { api } from "../utils/api";
 
@@ -11,10 +12,14 @@ export default function Page({
     error,
     isPasswordProtected,
     link,
+    ogTitle,
+    redirectUrl,
 }: {
     error?: string;
     isPasswordProtected?: boolean;
     link?: string;
+    ogTitle?: string;
+    redirectUrl?: string;
 }) {
     const [password, setPassword] = useState("");
 
@@ -35,6 +40,11 @@ export default function Page({
                 }
             });
     }
+    useEffect(() => {
+        if (ogTitle) {
+            router.push(redirectUrl);
+        }
+    });
 
     if (error) {
         return (
@@ -45,11 +55,23 @@ export default function Page({
                 </span>
             </div>
         );
-    }
-
-    if (isPasswordProtected) {
+    } else if (isPasswordProtected) {
         return (
             <div className="grid row-span-2 gap-10 content-center place-items-center h-screen">
+                <Head>
+                    <title>
+                        {ogTitle
+                            ? `Password protected - ${ogTitle}`
+                            : "Password protected"}
+                    </title>
+                    {ogTitle && (
+                        <meta
+                            property="og:title"
+                            content={`Password protected - ${ogTitle}`}
+                        />
+                    )}
+                </Head>
+
                 <h1 className="text-6xl font-extrabold text-red-700">
                     Password Protected
                 </h1>
@@ -77,6 +99,15 @@ export default function Page({
                         Submit
                     </button>
                 </form>
+            </div>
+        );
+    } else if (ogTitle) {
+        return (
+            <div className="grid row-span-2 gap-10 content-center place-items-center h-screen">
+                <Head>
+                    <title>{ogTitle}</title>
+                    <meta property="og:title" content={ogTitle} />
+                </Head>
             </div>
         );
     }
@@ -122,6 +153,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 props: {
                     isPasswordProtected: true,
                     link: dbRes.name,
+                    ogTitle: dbRes.ogTitle,
+                },
+            };
+        }
+
+        if (dbRes.ogTitle) {
+            return {
+                props: {
+                    redirectUrl: dbRes.redirectTo,
+                    ogTitle: dbRes.ogTitle,
                 },
             };
         }

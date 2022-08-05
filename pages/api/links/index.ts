@@ -31,6 +31,7 @@ async function getHandler(
             clicks: true,
             createdAt: true,
             id: true,
+            ogTitle: true,
             name: true,
             redirectTo: true,
             password: true,
@@ -44,6 +45,7 @@ async function getHandler(
                 redirectTo: link.redirectTo,
                 clicks: link.clicks,
                 createdAt: link.createdAt,
+                ogTitle: link.ogTitle,
                 id: link.id,
                 isPasswordLocked: link.password ? true : false,
             };
@@ -67,7 +69,13 @@ async function postHandler(
         name,
         redirectTo,
         password,
-    }: { name: string; redirectTo: string; password?: string } = req.body;
+        ogTitle,
+    }: {
+        name: string;
+        redirectTo: string;
+        password?: string;
+        ogTitle?: string;
+    } = req.body;
 
     let changingName = name || null;
 
@@ -114,6 +122,7 @@ async function postHandler(
         name: sluggedName,
         redirectTo,
         password: hashedPassword,
+        ogTitle,
     });
 
     return res.json({

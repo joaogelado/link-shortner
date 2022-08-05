@@ -1,6 +1,7 @@
 export interface Link {
     id: string;
     name: string;
+    ogTitle: string;
     redirectTo: string;
     password: string;
     clicks: number;
@@ -10,6 +11,7 @@ export interface Link {
 export interface LinkSelect {
     id: boolean;
     name: boolean;
+    ogTitle: boolean;
     redirectTo: boolean;
     password: boolean;
     clicks: boolean;
@@ -46,6 +48,7 @@ export interface ReadLinkData {
 export interface CreateLinkData {
     name: string;
     redirectTo: string;
+    ogTitle?: string;
     password?: string;
 }
 
@@ -58,6 +61,7 @@ export interface UpdateLinkData {
         name?: string;
         clicks?: number;
         password?: string;
+        ogTitle?: string;
         redirectTo?: string;
     };
 }

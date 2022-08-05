@@ -7,6 +7,7 @@ export default function CreateLink() {
     const [name, setName] = useState<string | null>("");
     const [redirectTo, setRedirectTo] = useState("");
     const [password, setPassword] = useState("");
+    const [ogTitle, setOgTitle] = useState("");
     const [isSelected, setIsSelected] = useState(false);
 
     function handleOpenCreateLink() {
@@ -15,11 +16,13 @@ export default function CreateLink() {
 
     async function handleCreateLink(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        console.log(ogTitle);
 
         await api.post("/links", {
             name,
             redirectTo,
             password,
+            ogTitle,
         });
 
         setIsSelected(false);
@@ -66,6 +69,15 @@ export default function CreateLink() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="dark:bg-zinc-700 bg-zinc-300 rounded-sm"
+                />
+                <hr />
+                <label htmlFor="ogTitle">og:title</label>
+                <input
+                    id="ogTitle"
+                    type="text"
+                    value={ogTitle}
+                    onChange={(e) => setOgTitle(e.target.value)}
                     className="dark:bg-zinc-700 bg-zinc-300 rounded-sm"
                 />
                 <button

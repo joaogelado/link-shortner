@@ -37,12 +37,14 @@ export class PrismaLinkRepository implements LinkRepository {
         name,
         redirectTo,
         password,
+        ogTitle,
     }: CreateLinkData): Promise<void> {
         await prisma.link.create({
             data: {
                 name,
                 redirectTo,
                 password,
+                ogTitle,
             },
         });
     }
