@@ -14,7 +14,8 @@ export default function Document() {
                     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
                     rel="stylesheet"
                 />
-                <meta name="robots" content="noindex, nofollow" />
+                <meta name="robots" content="noindex" />
+                <meta name="robots" content="nofollow" />
             </Head>
             <body>
                 <Main />
