@@ -8,10 +8,33 @@ import { Link } from "phosphor-react";
 
 const fetcher = (url) => api.get(url).then((res) => res.data);
 
+type Link = {
+    id: string;
+    name: string;
+    clicks: number;
+    url: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+    isPasswordLocked: boolean;
+    redirectTo: string;
+    ogTitle: string;
+    ogType: string;
+    ogImage: string;
+    ogUrl: string;
+    ogDescription: string;
+    twitterCard: string;
+    ogVideo: string;
+    ogSiteName: string;
+    ogLocale: string;
+};
+
+type Links = Link[];
+
 export default function LinkList() {
     const router = useRouter();
 
-    const { data, error } = useSWR("/links", fetcher, {
+    const { data, error } = useSWR<Links>("/links", fetcher, {
         refreshInterval: 500,
     });
 
@@ -55,6 +78,25 @@ export default function LinkList() {
                             </span>
                             {link.ogTitle && (
                                 <span>og:title: {link.ogTitle}</span>
+                            )}
+                            {link.ogDescription && (
+                                <span>
+                                    og:description: {link.ogDescription}
+                                </span>
+                            )}
+                            {link.ogImage && (
+                                <span>og:image: {link.ogImage}</span>
+                            )}
+                            {link.ogUrl && <span>og:url: {link.ogUrl}</span>}
+                            {link.ogType && <span>og:type: {link.ogType}</span>}
+                            {link.ogVideo && (
+                                <span>og:video: {link.ogVideo}</span>
+                            )}
+                            {link.ogSiteName && (
+                                <span>og:site_name: {link.ogSiteName}</span>
+                            )}
+                            {link.ogLocale && (
+                                <span>og:locale: {link.ogLocale}</span>
                             )}
                         </div>
                     ))
