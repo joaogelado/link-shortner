@@ -38,6 +38,14 @@ export class PrismaLinkRepository implements LinkRepository {
         redirectTo,
         password,
         ogTitle,
+        ogDescription,
+        ogImage,
+        ogUrl,
+        ogType,
+        twitterCard,
+        ogVideo,
+        ogSiteName,
+        ogLocale,
     }: CreateLinkData): Promise<void> {
         await prisma.link.create({
             data: {
@@ -45,6 +53,14 @@ export class PrismaLinkRepository implements LinkRepository {
                 redirectTo,
                 password,
                 ogTitle,
+                ogDescription,
+                ogImage,
+                ogUrl,
+                ogType,
+                twitterCard,
+                ogVideo,
+                ogSiteName,
+                ogLocale,
             },
         });
     }

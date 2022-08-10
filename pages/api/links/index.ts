@@ -32,6 +32,14 @@ async function getHandler(
             createdAt: true,
             id: true,
             ogTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            ogUrl: true,
+            ogType: true,
+            twitterCard: true,
+            ogVideo: true,
+            ogSiteName: true,
+            ogLocale: true,
             name: true,
             redirectTo: true,
             password: true,
@@ -46,6 +54,14 @@ async function getHandler(
                 clicks: link.clicks,
                 createdAt: link.createdAt,
                 ogTitle: link.ogTitle,
+                ogDescription: link.ogDescription,
+                ogImage: link.ogImage,
+                ogUrl: link.ogUrl,
+                ogType: link.ogType,
+                twitterCard: link.twitterCard,
+                ogVideo: link.ogVideo,
+                ogSiteName: link.ogSiteName,
+                ogLocale: link.ogLocale,
                 id: link.id,
                 isPasswordLocked: link.password ? true : false,
             };
@@ -70,11 +86,27 @@ async function postHandler(
         redirectTo,
         password,
         ogTitle,
+        ogDescription,
+        ogImage,
+        ogUrl,
+        ogType,
+        twitterCard,
+        ogVideo,
+        ogSiteName,
+        ogLocale,
     }: {
         name: string;
         redirectTo: string;
         password?: string;
         ogTitle?: string;
+        ogDescription: string;
+        ogImage: string;
+        ogUrl: string;
+        ogType: string;
+        twitterCard: string;
+        ogVideo: string;
+        ogSiteName: string;
+        ogLocale: string;
     } = req.body;
 
     let changingName = name || null;
@@ -123,6 +155,14 @@ async function postHandler(
         redirectTo,
         password: hashedPassword,
         ogTitle,
+        ogDescription,
+        ogImage,
+        ogUrl,
+        ogType,
+        twitterCard,
+        ogVideo,
+        ogSiteName,
+        ogLocale,
     });
 
     return res.json({

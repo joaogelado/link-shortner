@@ -1,10 +1,10 @@
 import useSWR from "swr";
-import Link from "next/link";
+import NextLink from "next/link";
 import { api } from "../utils/api";
 import Loading from "./Loading";
 import { useRouter } from "next/router";
-import { lazy, Suspense } from "react";
-const CreateLink = lazy(() => import("./CreateLink"));
+
+import { Link } from "phosphor-react";
 
 const fetcher = (url) => api.get(url).then((res) => res.data);
 
@@ -21,9 +21,11 @@ export default function LinkList() {
 
     return (
         <>
-            <Suspense>
-                <CreateLink />
-            </Suspense>
+            <NextLink href="/app/create">
+                <a>
+                    <Link />
+                </a>
+            </NextLink>
 
             <div className="divide-y divide-zinc-400 dark:divide-zinc-800">
                 {data ? (
@@ -31,7 +33,7 @@ export default function LinkList() {
                         <div key={link.id} className="grid grid-rows-3 p-5">
                             <span>
                                 Original URL:{" "}
-                                <Link href={`/${link.name}`}>
+                                <NextLink href={`/${link.name}`}>
                                     <a className="text-blue-300">
                                         {`${
                                             window.location.host.includes(
@@ -43,7 +45,7 @@ export default function LinkList() {
                                             link.name
                                         }`}
                                     </a>
-                                </Link>
+                                </NextLink>
                             </span>
                             <span>Redirect URL: {link.redirectTo}</span>
                             <span>Clicks: {link.clicks}</span>

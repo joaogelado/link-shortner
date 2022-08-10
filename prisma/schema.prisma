@@ -11,13 +11,21 @@ datasource db {
 }
 
 model Link {
-  id         String   @id @default(cuid())
-  name       String   @unique
-  redirectTo String   @map("redirect_to")
-  password   String?
-  clicks     Int      @default(0)
-  ogTitle    String?  @map("og_title")
-  createdAt  DateTime @default(now())
+  id            String   @id @default(cuid())
+  name          String   @unique
+  redirectTo    String   @map("redirect_to")
+  password      String?
+  clicks        Int      @default(0)
+  ogTitle       String?  @map("og_title")
+  ogType        String?  @map("og_type")
+  ogImage       String?  @map("og_image")
+  ogUrl         String?  @map("og_url")
+  ogDescription String?  @map("og_description")
+  twitterCard   String?  @map("twitter_card")
+  ogVideo       String?  @map("og_video")
+  ogSiteName    String?  @map("og_site_name")
+  ogLocale      String?  @map("og_locale")
+  createdAt     DateTime @default(now())
 
   @@map("links")
 }

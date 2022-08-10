@@ -2,6 +2,14 @@ export interface Link {
     id: string;
     name: string;
     ogTitle: string;
+    ogType: string;
+    ogImage: string;
+    ogUrl: string;
+    ogDescription: string;
+    twitterCard: string;
+    ogVideo: string;
+    ogSiteName: string;
+    ogLocale: string;
     redirectTo: string;
     password: string;
     clicks: number;
@@ -12,6 +20,14 @@ export interface LinkSelect {
     id: boolean;
     name: boolean;
     ogTitle: boolean;
+    ogType: boolean;
+    ogImage: boolean;
+    ogUrl: boolean;
+    ogDescription: boolean;
+    twitterCard: boolean;
+    ogVideo: boolean;
+    ogSiteName: boolean;
+    ogLocale: boolean;
     redirectTo: boolean;
     password: boolean;
     clicks: boolean;
@@ -49,6 +65,14 @@ export interface CreateLinkData {
     name: string;
     redirectTo: string;
     ogTitle?: string;
+    ogType?: string;
+    ogImage?: string;
+    ogUrl?: string;
+    ogDescription?: string;
+    twitterCard?: string;
+    ogVideo?: string;
+    ogSiteName?: string;
+    ogLocale?: string;
     password?: string;
 }
 
@@ -62,6 +86,14 @@ export interface UpdateLinkData {
         clicks?: number;
         password?: string;
         ogTitle?: string;
+        ogType?: string;
+        ogImage?: string;
+        ogUrl?: string;
+        ogDescription?: string;
+        twitterCard?: string;
+        ogVideo?: string;
+        ogSiteName?: string;
+        ogLocale?: string;
         redirectTo?: string;
     };
 }

@@ -13,12 +13,28 @@ export default function Page({
     isPasswordProtected,
     link,
     ogTitle,
+    ogType,
+    ogImage,
+    ogUrl,
+    ogDescription,
+    twitterCard,
+    ogVideo,
+    ogSiteName,
+    ogLocale,
     redirectUrl,
 }: {
     error?: string;
     isPasswordProtected?: boolean;
     link?: string;
     ogTitle?: string;
+    ogType?: string;
+    ogImage?: string;
+    ogUrl?: string;
+    ogDescription?: string;
+    twitterCard?: string;
+    ogVideo?: string;
+    ogSiteName?: string;
+    ogLocale?: string;
     redirectUrl?: string;
 }) {
     const [password, setPassword] = useState("");
@@ -41,7 +57,17 @@ export default function Page({
             });
     }
     useEffect(() => {
-        if (ogTitle) {
+        if (
+            ogTitle ||
+            ogType ||
+            ogImage ||
+            ogUrl ||
+            ogDescription ||
+            twitterCard ||
+            ogVideo ||
+            ogSiteName ||
+            ogLocale
+        ) {
             router.push(redirectUrl);
         }
     });
@@ -69,6 +95,25 @@ export default function Page({
                             property="og:title"
                             content={`Password protected - ${ogTitle}`}
                         />
+                    )}
+                    {ogType && <meta property="og:type" content={ogType} />}
+                    {ogImage && <meta property="og:image" content={ogImage} />}
+                    {ogUrl && <meta property="og:url" content={ogUrl} />}
+                    {ogDescription && (
+                        <meta
+                            property="og:description"
+                            content={ogDescription}
+                        />
+                    )}
+                    {twitterCard && (
+                        <meta property="twitter:card" content={twitterCard} />
+                    )}
+                    {ogVideo && <meta property="og:video" content={ogVideo} />}
+                    {ogSiteName && (
+                        <meta property="og:site_name" content={ogSiteName} />
+                    )}
+                    {ogLocale && (
+                        <meta property="og:locale" content={ogLocale} />
                     )}
                 </Head>
 
@@ -101,12 +146,41 @@ export default function Page({
                 </form>
             </div>
         );
-    } else if (ogTitle) {
+    } else if (
+        ogTitle ||
+        ogType ||
+        ogImage ||
+        ogUrl ||
+        ogDescription ||
+        twitterCard ||
+        ogVideo ||
+        ogSiteName ||
+        ogLocale
+    ) {
         return (
             <div className="grid row-span-2 gap-10 content-center place-items-center h-screen">
                 <Head>
                     <title>{ogTitle}</title>
-                    <meta property="og:title" content={ogTitle} />
+                    {ogTitle && <meta property="og:title" content={ogTitle} />}
+                    {ogType && <meta property="og:type" content={ogType} />}
+                    {ogImage && <meta property="og:image" content={ogImage} />}
+                    {ogUrl && <meta property="og:url" content={ogUrl} />}
+                    {ogDescription && (
+                        <meta
+                            property="og:description"
+                            content={ogDescription}
+                        />
+                    )}
+                    {twitterCard && (
+                        <meta property="twitter:card" content={twitterCard} />
+                    )}
+                    {ogVideo && <meta property="og:video" content={ogVideo} />}
+                    {ogSiteName && (
+                        <meta property="og:site_name" content={ogSiteName} />
+                    )}
+                    {ogLocale && (
+                        <meta property="og:locale" content={ogLocale} />
+                    )}
                 </Head>
             </div>
         );
@@ -154,15 +228,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     isPasswordProtected: true,
                     link: dbRes.name,
                     ogTitle: dbRes.ogTitle,
+                    ogType: dbRes.ogType,
+                    ogImage: dbRes.ogImage,
+                    ogUrl: dbRes.ogUrl,
+                    ogDescription: dbRes.ogDescription,
+                    twitterCard: dbRes.twitterCard,
+                    ogVideo: dbRes.ogVideo,
+                    ogSiteName: dbRes.ogSiteName,
+                    ogLocale: dbRes.ogLocale,
                 },
             };
         }
 
-        if (dbRes.ogTitle) {
+        if (
+            dbRes.ogTitle ||
+            dbRes.ogType ||
+            dbRes.ogImage ||
+            dbRes.ogUrl ||
+            dbRes.ogDescription ||
+            dbRes.twitterCard ||
+            dbRes.ogVideo ||
+            dbRes.ogSiteName ||
+            dbRes.ogLocale
+        ) {
             return {
                 props: {
                     redirectUrl: dbRes.redirectTo,
                     ogTitle: dbRes.ogTitle,
+                    ogType: dbRes.ogType,
+                    ogImage: dbRes.ogImage,
+                    ogUrl: dbRes.ogUrl,
+                    ogDescription: dbRes.ogDescription,
+                    twitterCard: dbRes.twitterCard,
+                    ogVideo: dbRes.ogVideo,
+                    ogSiteName: dbRes.ogSiteName,
+                    ogLocale: dbRes.ogLocale,
                 },
             };
         }
