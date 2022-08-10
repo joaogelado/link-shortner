@@ -59,7 +59,6 @@ export default function CreateLink() {
                 <FormInput
                     label="Name"
                     placeholder="Enter the link's name..."
-                    required
                     setState={setName}
                     state={name}
                     id="name"
@@ -159,7 +158,15 @@ export default function CreateLink() {
                             setState={setTwitterCard}
                             state={twitterCard}
                             id="twitterCard"
-                            type="text"
+                            type="select"
+                            options={[
+                                { label: "summary", value: "summary" },
+                                {
+                                    label: "summary_large_image",
+
+                                    value: "summary_large_image",
+                                },
+                            ]}
                         />
                         <FormInput
                             label="og:video"
