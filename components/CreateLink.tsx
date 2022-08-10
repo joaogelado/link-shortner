@@ -33,6 +33,14 @@ export default function CreateLink() {
             redirectTo,
             password,
             ogTitle,
+            ogType,
+            ogImage,
+            ogUrl,
+            ogDescription,
+            twitterCard,
+            ogVideo,
+            ogSiteName,
+            ogLocale,
         });
 
         router.push("/app");
